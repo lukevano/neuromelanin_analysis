@@ -1,5 +1,5 @@
 ## NM script 01/oct/2021 V2.0
-# To re-download code: https://github.com/lukevano
+# To re-download code: https://github.com/lukevano/neuromelanin_analysis/
 
 # V2.0 = Adding head cropping as part of the script and using this image for the bet
 
