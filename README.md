@@ -1,29 +1,34 @@
-# neuromelanin_analysis
+# Neuromelanin Analysis
 
-NM script 01/oct/2021 V2.0
-To re-download code: https://github.com/lukevano/neuromelanin_analysis/
+### This script has been designed with the help of Dr Stephen Kaar and Dr Rong Ye. It packages together FMRIB Software Library (FSL) and Advanced Normalization Tools (ANTs) to allow automatic processing of Neuromelanin-sensitive MRI data.
 
-# V2.0 = Adding head cropping as part of the script and using this image for the bet
+### NM script 01/Oct/2021 V2.0
+### Download the most up to date code: https://github.com/lukevano/neuromelanin_analysis/
 
-# Make project directory and NM directory inside this. In NM directory make the following directories: data, output, code, templates, working, results
-# Next subdirectory in data folder should be subject folder. Inside this should be a session folder. Inside this should be one folder for the dcm data for T1 and one for nm dcm data
-# Example: sub-001 >  ses-000 > t1_dcm
-# Put dcm data into t1_dcm or nm_dcm respectively
-# If you already have the nii or nii.gz then just leave this in the session folder
+### V1.0 = Initial commit. Some issues with NM-MRI normalization as brain extraction tool (BET) sometimes leaving too much soft tissue around the brainstem.
+### V2.0 = robustfov added to pipeline for cropping of the T1 data (removing the neck and lower head). This cropped T1 is then used for BET. -R (robust) brain centre estimation option added to the BET.
 
-# Put MNI and masks in the templates folder and make sure this is correctly mapped below
-# Here is a good mask: https://neurovault.org/collections/3145/
+## Steps:
 
-# Code will make sure working and output folders are correctly labelled
+### 1. Collect T1 and NM-MRI dcm/nii data
+### 2. Make project directory and NM directory inside this. In NM directory make the following directories: data, output, code, templates, working, results
+### 3. In the data folder make a subject folder and in this make a session folder. Example: proj_name/NM/data/sub-001/ses-000
+### 4. If dealing with dcm data- make t1_dcm and nm_dcm and put the t1 and nm dcm data into the respective folders. If you already have the t1 and nm nii/nii.gz files just put these directly in the session folder.
+### 5. Put brain template (must be brain and not full head) and masks in the templates folder. You will need to change the nm_script to make sure that your template and masks are correctly mapped to the code. We have been using mask from the following collection: https://neurovault.org/collections/3145/
 
-# WARNING- running code for a subject with delete ALL of the data in that subject's working and output folders. Suppress with # if not wanting to delete this data.
-# Before running make sure all paths correct. Code will not do anything outside of NM folder but may delete files and folders in this directory so double check path!!!!
+## Code will make sure working and output folders are correctly labelled
+## WARNING- running code for a subject with delete ALL of the data in that subject's working and output folders. Suppress the relevant sections of code with # if not wanting to delete this data. Before running make sure all paths correct. Code will not do anything outside of NM folder but may delete files and folders in this directory so double check path!!!!
 
-# To call script use the following command: bash /data/project/CARDS/NM/code/nm_script_v2.sh sub-001 sub-002 ...
+## 6. When calling the script specify which participant data you would like to analysis. To call script use the following command: bash path_proj_dir/NM/code/nm_script_v2.sh sub-001 sub-002 ...
 
+### The results from the initial processing of the t1 will be saved in the data folder. c_t1 = cropped t1, c_t1_brain = the BET output. The results from the co-registrtion and transformation steps will be saved in the working folder. The normalized nm data will be stored in the output folder. The mean signal intensity of the normalized nm voxels that are inside the masks will be recorder in the results/nm_results.txt (this will not delete the previously recordered results so can analyse the each participant one at a time if you like)
 
+## Troubleshooting:
 
-## Modules to load for processing
+### The main source of erroneous results will be poor brain extraction or poor NM-MRI image. As the NM-MRI sequences are relatively long in duration significant movement may mean that the NM-MRI image is uninterpretable and the image will need to be discarded. If the brain extraction is the issue then look at the following page for troubleshooting: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/BET/UserGuide. Take a look at the c_t1_brain image. If too much brain has been removed you can decrease -f 0.5 to -f 0.2 in the code. If not enough brain has been removed increase -f. -g will alter how much brain is removed from the top or bottom of the image- positive values give larger brain outline at bottom, smaller at top (values between -1 and 1 may be used).
 
-module load ants
-module load fsl/6.0.1
+## Dependencies:
+
+### Make sure you FSL and ANTs downloaded:
+### https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
+### http://stnava.github.io/ANTs/
