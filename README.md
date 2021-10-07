@@ -1,6 +1,6 @@
 # Neuromelanin Analysis
 
-This analysis pipeline was designed under the supervision of Dr Stephen Kaar and Dr Rong Ye. This script packages together FMRIB Software Library (FSL) and Advanced Normalization Tools (ANTs) to allow automatic processing of Neuromelanin-sensitive MRI data.
+This analysis pipeline was designed under the supervision of Dr Stephen Kaar,  Dr Rong Ye, and Dr Robert McCutcheon. This script packages together FMRIB Software Library (FSL) and Advanced Normalization Tools (ANTs) to allow automatic processing of Neuromelanin-sensitive MRI data.
 
 #### Download the most up to date code: https://github.com/lukevano/neuromelanin_analysis/
 
